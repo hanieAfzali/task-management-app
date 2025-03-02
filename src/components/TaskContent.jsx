@@ -2,8 +2,8 @@ import TaskList from "./TaskList";
 
 const TaskContent = () => {
   return (
-    <div>
-      <h1>task management app</h1>
+    <div className="bg-red">
+      <h1 className="underline font-bold">task management app</h1>
       <TaskList />
     </div>
   );
