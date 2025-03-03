@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
-  const response = await fetch("http://46.100.46.149:8069/api/tasks");
+  const response = await fetch("http://46.100.46.149:8069/api/schema/swagger-ui/");
   if (!response.ok) {
     throw new Error("network response was not ok");
   }
