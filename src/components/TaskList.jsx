@@ -11,8 +11,8 @@ const TaskList = () => {
   const tasks = useSelector((state) => state.tasks.tasks);
 
   return (
-    <div>
-      {tasks.map((task) => (
+    <div className="">
+      {tasks.results?.map((task) => (
         <TaskItems key={task.id} task={task} />
       ))}
     </div>

@@ -1,8 +1,35 @@
+import { CheckIcon, CloseIcon, EditIcon, TrashIcon } from "./SvgIcons";
+import { useState } from "react";
+
 const TaskItems = ({ task }) => {
+  const [isCompleted, setIsCompleted] = useState(false);
+
   return (
-    <div>
-      <h3>{task.title}</h3>
-      <p>{task.description}</p>
+    <div
+      className={`shadow shadow-gray-500 justify-items-start p-3 m-2 flex flex-row items-center rounded-lg transition-all ${
+        isCompleted ? "bg-white" : "bg-gray-200"
+      }`}
+    >
+      <div className="text-start px-3 flex-1">
+        <h3 className={`text-lg font-semibold ${isCompleted ? "text-gray-700" : "text-gray-900"}`}>
+          {task.title}
+        </h3>
+        <p className={`text-sm ${isCompleted ? "text-gray-500" : "text-gray-700"}`}>
+          {task.description}
+        </p>
+      </div>
+      <div className="flex gap-3 items-center">
+      <label htmlFor="complitedInput">completed :</label>
+      <input
+      id="complitedInput"
+        type="checkbox"
+        className="cursor-pointer accent-green-600 w-5 h-5"
+        checked={isCompleted}
+        onChange={() => setIsCompleted(!isCompleted)}
+      />
+        <EditIcon />
+        <TrashIcon />
+      </div>
     </div>
   );
 };
