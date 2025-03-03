@@ -1,8 +1,18 @@
+import { useDispatch } from "react-redux";
 import { CheckIcon, CloseIcon, EditIcon, TrashIcon } from "./SvgIcons";
 import { useState } from "react";
+import { deleteTask, editTask } from "../redux/taskSlice";
 
-const TaskItems = ({ task }) => {
+const TaskItems = ({ task, openEditTaskModal, taskId }) => {
   const [isCompleted, setIsCompleted] = useState(false);
+  const dispatch = useDispatch();
+  const deleteTasks = () => {
+    dispatch(deleteTask(task.id))
+
+    
+  }
+
+
 
   return (
     <div
@@ -27,8 +37,8 @@ const TaskItems = ({ task }) => {
         checked={isCompleted}
         onChange={() => setIsCompleted(!isCompleted)}
       />
-        <EditIcon />
-        <TrashIcon />
+        <EditIcon onClick={()=> openEditTaskModal(task)} />
+        <TrashIcon onClick={deleteTasks} />
       </div>
     </div>
   );

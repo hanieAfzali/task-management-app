@@ -1,5 +1,6 @@
-const TrashIcon = ({ size = 24, color = "red" }) => (
+const TrashIcon = ({ size = 24, color = "red", onClick }) => (
     <svg
+    onClick={onClick}
     cursor='pointer'
       width={size}
       height={size}
@@ -51,9 +52,10 @@ const TrashIcon = ({ size = 24, color = "red" }) => (
       <path d="M6 6l12 12M18 6l-12 12" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
-  const EditIcon = ({ size = 24, color = "orange" }) => (
+  const EditIcon = ({ size = 24, color = "orange", onClick }) => (
     <svg
-    cursor='pointer'
+    onClick={onClick}
+      cursor='pointer'
       width={size}
       height={size}
       viewBox="0 0 24 24"

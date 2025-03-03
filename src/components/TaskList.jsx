@@ -3,7 +3,7 @@ import TaskItems from "./TaskItems";
 import { useEffect } from "react";
 import { fetchTasks } from "../redux/taskSlice";
 
-const TaskList = () => {
+const TaskList = ({openEditTaskModal, taskId}) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchTasks());
@@ -13,7 +13,7 @@ const TaskList = () => {
   return (
     <div className="">
       {tasks.results?.map((task) => (
-        <TaskItems key={task.id} task={task} />
+        <TaskItems key={task.id} task={task} taskId={taskId} openEditTaskModal={() => openEditTaskModal(task)} />
       ))}
     </div>
   );
