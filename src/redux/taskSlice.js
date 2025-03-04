@@ -23,14 +23,11 @@ export const addTask = createAsyncThunk(
         },
         body: JSON.stringify(task),
       });
-      console.log(response,'response');
       if (!response.ok) {
         throw new Error("Failed to add task");
       }
       return await response.json();
     } catch (error) {
-      console.log(error, 'errorrrrrr');
-      
       return rejectWithValue(error.message);
     }
   }
@@ -39,10 +36,11 @@ export const addTask = createAsyncThunk(
 // 3. عملیات ویرایش تسک
 export const editTask = createAsyncThunk(
   "tasks/editTask",
-  async ({ taskId, updatedTask }, { rejectWithValue }) => {
+  async ({ id, updatedTask }, { rejectWithValue }) => {
     try {
+      
       const response = await fetch(
-        `http://46.100.46.149:8069/api/tasks/${taskId}`,
+        `http://46.100.46.149:8069/api/tasks/${id}`,
         {
           method: "PUT",
           headers: {
@@ -52,7 +50,8 @@ export const editTask = createAsyncThunk(
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to edit task");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to edit task");
       }
       return await response.json();
     } catch (error) {
@@ -64,10 +63,10 @@ export const editTask = createAsyncThunk(
 // 4. عملیات حذف تسک
 export const deleteTask = createAsyncThunk(
   "tasks/deleteTask",
-  async (taskId, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `http://46.100.46.149:8069/api/tasks/${taskId}`,
+        `http://46.100.46.149:8069/api/tasks/${id}`,
         {
           method: "DELETE",
         }
@@ -75,7 +74,7 @@ export const deleteTask = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Failed to delete task");
       }
-      return taskId; // فقط taskId رو برگشت می‌دهیم که از لیست حذف کنیم
+      return id; // فقط id رو برگشت می‌دهیم که از لیست حذف کنیم
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -85,10 +84,10 @@ export const deleteTask = createAsyncThunk(
 // 5. عملیات تغییر وضعیت تسک (کامل شده / کامل نشده)
 export const toggleTaskCompletion = createAsyncThunk(
   "tasks/toggleTaskCompletion",
-  async ({ taskId, completed }, { rejectWithValue }) => {
+  async ({ id, completed }, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `http://46.100.46.149:8069/api/tasks/${taskId}`,
+        `http://46.100.46.149:8069/api/tasks/${id}`,
         {
           method: "PUT",
           headers: {
@@ -111,7 +110,7 @@ const taskSlice = createSlice({
   name: "tasks",
   initialState: {
     tasks: [],
-    status: "idle", // 'idle', 'loading', 'succeeded', 'failed'
+    status: "idle",
     error: null,
   },
   reducers: {},
@@ -163,8 +162,6 @@ const taskSlice = createSlice({
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log(state, 'payload delete');
-        
         state.tasks.results = state.tasks.results.filter((task) => task.id !== action.payload);
       })
       .addCase(deleteTask.rejected, (state, action) => {
