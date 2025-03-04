@@ -2,58 +2,40 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addTask, editTask } from "../redux/taskSlice";
 
-const TaskDetails = ({
-  taskToEdit,
-  setIsModalOpen,
-  addNewTask,
-  editExistTask,
-}) => {
+const TaskDetails = ({ taskToEdit, setIsModalOpen }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [completed, setCompleted] = useState("");
+  const [completed, setCompleted] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (taskToEdit) {
       setTitle(taskToEdit.title);
       setDescription(taskToEdit.description);
-      setCompleted(taskToEdit.completed)
+      setCompleted(taskToEdit.completed ?? false);
     } else {
       setTitle("");
       setDescription("");
-      setCompleted("")
+      setCompleted(false);
     }
   }, [taskToEdit]);
 
   const handleSubmit = () => {
     if (taskToEdit) {
-      // حالت ویرایش تسک
-      const updatedTask = {
-        id: taskToEdit.id, // حتماً `id` را ارسال کن که بدانیم کدام تسک را ویرایش می‌کنیم
-        title: title || taskToEdit.title,
-        description: description || taskToEdit.description,
-        completed: completed || taskToEdit.completed || false, // اگر مقدار اولیه داشت، همان را حفظ کند
-      };
-      console.log("Sending to editTask:", {
+      // ویرایش تسک موجود
+      dispatch(editTask({
         id: taskToEdit.id,
-        updatedTask: { title, description, completed: taskToEdit.completed },
-      });
-
-      editExistTask({
-        id: taskToEdit.id,
-        updatedTask: { title, description, completed: taskToEdit.completed },
-      });
+        updatedTask: { title, description, completed },
+      }));
     } else {
-      // حالت افزودن تسک جدید
-      const newTask = {
+      // افزودن تسک جدید
+      dispatch(addTask({
         title,
         description,
-        completed: false, // مقدار پیش‌فرض برای تسک جدید
-      };
-      addNewTask(newTask);
+        completed: false,
+      }));
     }
-
-    setIsModalOpen(false); // بستن مدال بعد از ذخیره تغییرات
+    setIsModalOpen(false); // بستن مدال پس از ذخیره تغییرات
   };
 
   return (
@@ -76,12 +58,24 @@ const TaskDetails = ({
           className="border p-2 mb-3 w-full rounded"
         />
         <div className="text-start pb-3">
-          <h3>task status :</h3>
-          <div className="flex justify-start items-center gap-1 ">
-            <label htmlFor="radio1">complete</label>
-            <input type="radio" name="radioChoose" id="radio1" value={completed} />
-            <label htmlFor="radio2">not complete</label>
-            <input type="radio" name="radioChoose" id="radio2" value={completed}/>
+          <h3>Task Status:</h3>
+          <div className="flex justify-start items-center gap-1">
+            <label htmlFor="radio1">Complete</label>
+            <input
+              type="radio"
+              name="radioChoose"
+              id="radio1"
+              checked={completed}
+              onChange={() => setCompleted(true)}
+            />
+            <label htmlFor="radio2">Not Complete</label>
+            <input
+              type="radio"
+              name="radioChoose"
+              id="radio2"
+              checked={!completed}
+              onChange={() => setCompleted(false)}
+            />
           </div>
         </div>
         <div className="flex justify-end gap-3">

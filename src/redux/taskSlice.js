@@ -147,7 +147,7 @@ const taskSlice = createSlice({
       })
       .addCase(editTask.fulfilled, (state, action) => {
         state.status = "succeeded";
-        const index = state.tasks.findIndex((task) => task.id === action.payload.id);
+        const index = state.tasks.results.findIndex((task) => task.id === action.payload.id);
         if (index !== -1) {
           state.tasks[index] = action.payload;
         }
@@ -174,7 +174,7 @@ const taskSlice = createSlice({
       })
       .addCase(toggleTaskCompletion.fulfilled, (state, action) => {
         state.status = "succeeded";
-        const index = state.tasks.findIndex((task) => task.id === action.payload.id);
+        const index = state.tasks.results.findIndex((task) => task.id === action.payload.id);
         if (index !== -1) {
           state.tasks[index] = action.payload;
         }
