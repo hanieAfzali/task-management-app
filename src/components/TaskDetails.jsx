@@ -22,20 +22,20 @@ const TaskDetails = ({ taskToEdit, setIsModalOpen }) => {
 
   const handleSubmit = () => {
     if (taskToEdit) {
-      // ویرایش تسک موجود
+      // edit task
       dispatch(editTask({
         id: taskToEdit.id,
         updatedTask: { title, description, completed },
       }));
     } else {
-      // افزودن تسک جدید
+      // add new task
       dispatch(addTask({
         title,
         description,
         completed: false,
       }));
     }
-    setIsModalOpen(false); // بستن مدال پس از ذخیره تغییرات
+    setIsModalOpen(false);
   };
 
   return (

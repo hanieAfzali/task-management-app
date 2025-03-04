@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-// 1. عملیات دریافت تسک‌ها از API
+// list
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   const response = await fetch("http://46.100.46.149:8069/api/tasks");
   if (!response.ok) {
@@ -10,7 +10,7 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   return data;
 });
 
-// 2. عملیات اضافه کردن تسک
+// add
 export const addTask = createAsyncThunk(
   "tasks/addTask",
   async (task, { rejectWithValue }) => {
@@ -33,7 +33,7 @@ export const addTask = createAsyncThunk(
   }
 );
 
-// 3. عملیات ویرایش تسک
+// edit
 export const editTask = createAsyncThunk(
   "tasks/editTask",
   async ({ id, updatedTask }, { rejectWithValue }) => {
@@ -60,7 +60,7 @@ export const editTask = createAsyncThunk(
   }
 );
 
-// 4. عملیات حذف تسک
+// delete
 export const deleteTask = createAsyncThunk(
   "tasks/deleteTask",
   async (id, { rejectWithValue }) => {
@@ -81,7 +81,7 @@ export const deleteTask = createAsyncThunk(
   }
 );
 
-// 5. عملیات تغییر وضعیت تسک (کامل شده / کامل نشده)
+// complete
 export const toggleTaskCompletion = createAsyncThunk(
   "tasks/toggleTaskCompletion",
   async ({ id, completed }, { rejectWithValue }) => {
@@ -116,7 +116,7 @@ const taskSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // دریافت تسک‌ها
+      // get list
       .addCase(fetchTasks.pending, (state) => {
         state.status = "loading";
       })
@@ -128,7 +128,7 @@ const taskSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-      // اضافه کردن تسک
+      // add
       .addCase(addTask.pending, (state) => {
         state.status = "loading";
       })
@@ -141,7 +141,7 @@ const taskSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-      // ویرایش تسک
+      // edit
       .addCase(editTask.pending, (state) => {
         state.status = "loading";
       })
@@ -156,7 +156,7 @@ const taskSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-      // حذف تسک
+      // delete
       .addCase(deleteTask.pending, (state) => {
         state.status = "loading";
       })
@@ -168,7 +168,7 @@ const taskSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-      // تغییر وضعیت تسک (کامل شده / کامل نشده)
+      // complete
       .addCase(toggleTaskCompletion.pending, (state) => {
         state.status = "loading";
       })
