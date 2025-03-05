@@ -22,17 +22,17 @@ const TaskDetails = ({ taskToEdit, setIsModalOpen }) => {
 
   const handleSubmit = () => {
     if (taskToEdit) {
-      // edit task
+      //when edit task
       dispatch(editTask({
         id: taskToEdit.id,
         updatedTask: { title, description, completed },
       }));
     } else {
-      // add new task
+      //when add new task
       dispatch(addTask({
         title,
         description,
-        completed: false,
+        completed,
       }));
     }
     setIsModalOpen(false);

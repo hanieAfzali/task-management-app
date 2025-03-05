@@ -13,19 +13,19 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
 // add
 export const addTask = createAsyncThunk(
   "tasks/addTask",
-  async (task, { rejectWithValue }) => {
-    
+  async (task, { rejectWithValue }) => {    
     try {
-      const response = await fetch("http://46.100.46.149:8069/api/tasks", {
+      const response = await fetch("http://46.100.46.149:8069/api/tasks/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify(task),
       });
       if (!response.ok) {
         throw new Error("Failed to add task");
-      }
+      }     
       return await response.json();
     } catch (error) {
       return rejectWithValue(error.message);
@@ -134,7 +134,9 @@ const taskSlice = createSlice({
       })
       .addCase(addTask.fulfilled, (state, action) => {
         state.status = "succeeded";     
-        state.tasks.results.push(action.payload);
+        console.log(action.payload, 'action payload');
+        state.tasks.results = state.tasks.results ? [...state.tasks.results, action.payload] : [action.payload];
+        // state.tasks.results.push(action.payload);
         // state.tasks = [...state.tasks , action.payload]
       })
       .addCase(addTask.rejected, (state, action) => {
@@ -149,7 +151,7 @@ const taskSlice = createSlice({
         state.status = "succeeded";
         const index = state.tasks.results.findIndex((task) => task.id === action.payload.id);
         if (index !== -1) {
-          state.tasks[index] = action.payload;
+          state.tasks.results[index] = action.payload;
         }
       })
       .addCase(editTask.rejected, (state, action) => {
