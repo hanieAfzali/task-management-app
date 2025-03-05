@@ -1,0 +1,7 @@
+h3 , p {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%; /* یا مقدار دلخواه برای محدود کردن عرض */
+  }

@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { CheckIcon, CloseIcon, EditIcon, TrashIcon } from "./SvgIcons";
 import { useState } from "react";
 import { deleteTask, editTask } from "../redux/taskSlice";
+import "./index.css"
 
 const TaskItems = ({ task, openEditTaskModal, taskId }) => {
   const [isCompleted, setIsCompleted] = useState(false);
@@ -20,16 +21,16 @@ const TaskItems = ({ task, openEditTaskModal, taskId }) => {
         task.completed === true ? "bg-white" : "bg-gray-200"
       }`}
     >
-      <div className="text-start px-3 flex-1">
-        <h3 className={`text-lg font-semibold ${task.completed === false ? "text-gray-700" : "text-gray-900"}`}>
+      <div className="text-start px-3 flex-1 overflow-auto">
+        <h3 className={`text-lg font-semibold ${task.completed === false ? "text-gray-700" : "text-gray-900"} overflow-scroll`}>
           {task.title}
         </h3>
-        <p className={`text-sm ${task.completed === true ? "text-gray-500" : "text-gray-700"}`}>
+        <p className={`text-sm ${task.completed === true ? "text-gray-500" : "text-gray-700"} overflow-scroll`}>
           {task.description}
         </p>
       </div>
       <div className="flex gap-3 items-center">
-      <label htmlFor="complitedInput">completed :</label>
+      <label className="hidden md:block" htmlFor="complitedInput">completed :</label>
       <input
       id="complitedInput"
         type="checkbox"
